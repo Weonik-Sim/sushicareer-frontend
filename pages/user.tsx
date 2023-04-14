@@ -13,7 +13,7 @@ const User: NextPage = () => {
     async function createUser() {
         const accounts = await web3.eth.getAccounts();
         console.log("accounts: ", accounts);
-        const result = await contract.methods._createEmployee("SIM_WEONIK").send({ from: accounts[0] });
+        const result = await contract.methods._createEmployee("SIM_WEONIK", "SARAH_Inc", "https://sarah30.slack.com").send({ from: accounts[0] });
         console.log(result);
     };
 
@@ -22,22 +22,22 @@ const User: NextPage = () => {
         console.log("getEmployeeInfo: ", result);
     };
 
-    async function setEmployeeJoinCompany() {
+    async function sendSushi() {
         const accounts = await web3.eth.getAccounts();
-        const result = await contract.methods._setEmployeeJoinCompany(0).send({ from: accounts[0] });
+        const result = await contract.methods._sendSushi(1, 100).send({ from: accounts[0] });
         console.log("setEmployeeJoinCompany: ", result);
     };
 
     async function getAllThings() {
         const result = await contract.methods._getAllThings().call();
         console.log("getAllThings: ", result);
-    };    
-
-    async function setEmployeeLeaveCompany() {
-        const accounts = await web3.eth.getAccounts();
-        const result = await contract.methods._setEmployeeLeaveCompany(0, 300).send({ from: accounts[0] });
-        console.log("setEmployeeLeaveCompany: ", result);
     };
+
+    // async function setEmployeeLeaveCompany() {
+    //     const accounts = await web3.eth.getAccounts();
+    //     const result = await contract.methods._setEmployeeLeaveCompany(0, 300).send({ from: accounts[0] });
+    //     console.log("setEmployeeLeaveCompany: ", result);
+    // };
 
     
 
@@ -62,12 +62,12 @@ const User: NextPage = () => {
                 </div>
 
                 <div>
-                    <button onClick={setEmployeeJoinCompany}>Join Company</button>
+                    <button onClick={sendSushi}>Send Sushi</button>
                 </div>
 
-                <div>
+                {/* <div>
                     <button onClick={setEmployeeLeaveCompany}>Leave Company</button>
-                </div>
+                </div> */}
 
 
                 <div>
