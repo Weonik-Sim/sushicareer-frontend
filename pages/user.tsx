@@ -75,6 +75,12 @@ const User: NextPage = () => {
         console.log("getAllThings: ", result);
     };
 
+    async function getEmployeeInfoAddress() {
+        const accounts = await web3.eth.getAccounts();
+        const result = await contract.methods.getEmployeeInfoAddress().call({ from: accounts[0] });
+        console.log("getEmployeeInfoAddress: ", result);
+    };
+
     // async function setEmployeeLeaveCompany() {
     //     const accounts = await web3.eth.getAccounts();
     //     const result = await contract.methods._setEmployeeLeaveCompany(0, 300).send({ from: accounts[0] });
@@ -121,6 +127,11 @@ const User: NextPage = () => {
                     <button onClick={setEmployeeLeaveCompany}>Leave Company</button>
                 </div> */}
 
+
+                <div>
+                    <button onClick={getEmployeeInfoAddress}>Get User Info by Address</button>
+                </div>
+                <br />
 
                 <div>
                     <button onClick={getAllThings}>Get AllThings</button>
