@@ -43,6 +43,12 @@ const User: NextPage = () => {
         setSushi(e.target.value);
     };
 
+    const [slackId, setSlackId] = useState('');
+
+    const slackIdChange = (e) => {
+        setSlackId(e.target.value);
+    };
+
     const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
 
     const contractAddress = process.env.NEXT_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY || "";
@@ -55,7 +61,7 @@ const User: NextPage = () => {
         console.log("companyUrl: ", companyUrl);
         const accounts = await web3.eth.getAccounts();
         console.log("accounts: ", accounts);
-        const result = await contract.methods._createEmployee(userName, companyName, companyUrl).send({ from: accounts[0] });
+        const result = await contract.methods._createEmployee(userName, companyName, companyUrl, slackId).send({ from: accounts[0] });
         console.log(result);
     };
 
@@ -81,12 +87,11 @@ const User: NextPage = () => {
         console.log("getEmployeeInfoAddress: ", result);
     };
 
-    // async function setEmployeeLeaveCompany() {
-    //     const accounts = await web3.eth.getAccounts();
-    //     const result = await contract.methods._setEmployeeLeaveCompany(0, 300).send({ from: accounts[0] });
-    //     console.log("setEmployeeLeaveCompany: ", result);
-    // };
-
+    async function getEmployeeInfoBySlackId() {
+        const accounts = await web3.eth.getAccounts();
+        const result = await contract.methods.getEmployeeInfoSlack(slackId).call({ from: accounts[0] });
+        console.log("getEmployeeInfoBySlackId: ", result);
+    };
     
 
     return (
@@ -105,6 +110,7 @@ const User: NextPage = () => {
                     <input type="text" name="user_name" value={userName} onChange={userNameChange} placeholder="Your Name" />
                     <input type="text" name="company_name" value={companyName} onChange={companyNameChange} placeholder="Your Company Name" />
                     <input type="text" name="company_url" value={companyUrl} onChange={companyUrlChange} placeholder="Your Company Url" />
+                    <input type="text" name="slack_id" value={slackId} onChange={slackIdChange} placeholder="Your Slack ID" />
                     <button onClick={createUser}>Register</button>
                 </div>
                 <br />
@@ -123,10 +129,8 @@ const User: NextPage = () => {
                 </div>
                 <br />
 
-                {/* <div>
-                    <button onClick={setEmployeeLeaveCompany}>Leave Company</button>
-                </div> */}
-
+                <input type="text" name="slack_id" value={slackId} onChange={slackIdChange} placeholder="Slack ID" />
+                <button onClick={getEmployeeInfoBySlackId}>get User Info by Slack ID</button>
 
                 <div>
                     <button onClick={getEmployeeInfoAddress}>Get User Info by Address</button>
