@@ -28,10 +28,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const receiver_id = await getEmployeeInfoBySlackId(receiver_name);
 
     console.log("sender_id: ", sender_id);
-    // console.log("sender_id: ", sender_id);
+    console.log("receiver_id: ", receiver_id);
 
     const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+    console.log("account: ", account);
     const gasPrice = await web3.eth.getGasPrice();
+    console.log("gasPrice: ", gasPrice);
     const gasLimit = 3000000;
     const tx = {
     from: account.address,
@@ -40,7 +42,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     gasLimit: gasLimit,
     data: contract.methods._sendSushi(sender_id, receiver_id, osushi_count).encodeABI()
     };
+    console.log("tx: ", tx);
     const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
+    console.log("signedTx: ", signedTx);
     if (signedTx.rawTransaction) {
         const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
         console.log("receipt: ", receipt);
