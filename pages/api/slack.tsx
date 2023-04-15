@@ -14,6 +14,7 @@ const contract = new web3.eth.Contract(abi as AbiItem[], contractAddress);
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     console.log("req: ", req.body);
+    if (req.body == "") res.status(200).json({ result: 'empty' })
     const sender_name = req.body.sender_name;
     const receiver_name = req.body.receiver_name;
     const osushi_count = req.body.osushi_count;
@@ -30,7 +31,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     sendSushi(sender_id, receiver_id, osushi_count);
 
-    res.status(200).json({ from: 'Test', to: 'This is a test', sushi: '10' })
+    res.status(200).json({ result: 'OK' })
 } 
 
 async function getEmployeeInfoBySlackId(slackId: string): Promise<number> {
