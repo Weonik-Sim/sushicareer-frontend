@@ -29,7 +29,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log("sender_id: ", sender_id);
     // console.log("sender_id: ", sender_id);
 
-    sendSushi(sender_id, receiver_id, osushi_count);
+    await sendSushi(sender_id, receiver_id, osushi_count);
 
     res.status(200).json({ result: 'OK' })
 } 
