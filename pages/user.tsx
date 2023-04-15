@@ -5,6 +5,7 @@ import TokenArtifact from "../contracts/AIB.json";
 import { useState } from "react";
 import { resolve } from "path";
 import { useRouter } from "next/navigation";
+import { AbiItem } from 'web3-utils';
 
 const User: NextPage = () => {
 	const [userName, setUserName] = useState("");
@@ -24,35 +25,35 @@ const User: NextPage = () => {
 	const [userAddress, setUserAddress] = useState("");
 	const [userInfo, setUserInfo] = useState(""); // result of getEmployeeInfoAddress
 
-	const userNameChange = (e) => {
+	const userNameChange = (e: any) => {
 		setUserName(e.target.value);
 	};
 
-	const companyNameChange = (e) => {
+	const companyNameChange = (e: any) => {
 		setCompanyName(e.target.value);
 	};
 
-	const companyUrlChange = (e) => {
+	const companyUrlChange = (e: any) => {
 		setCompanyUrl(e.target.value);
 	};
 
-	const fromIdInfoChange = (e) => {
+	const fromIdInfoChange = (e: any) => {
 		setFromIdInfo(e.target.value);
 	};
 
-	const fromIdChange = (e) => {
+	const fromIdChange = (e: any) => {
 		setFromId(e.target.value);
 	};
 
-	const toIdChange = (e) => {
+	const toIdChange = (e: any) => {
 		setToId(e.target.value);
 	};
 
-	const sushiChange = (e) => {
+	const sushiChange = (e: any) => {
 		setSushi(e.target.value);
 	};
 
-	const slackIdChange = (e) => {
+	const slackIdChange = (e: any) => {
 		setSlackId(e.target.value);
 	};
 
@@ -61,7 +62,7 @@ const User: NextPage = () => {
 	const contractAddress =
 		process.env.NEXT_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY || "";
 	const abi = TokenArtifact.abi; // コントラクトのABIをここに記述
-	const contract = new web3.eth.Contract(abi, contractAddress);
+	const contract = new web3.eth.Contract(abi as AbiItem[], contractAddress);
 
 	const router = useRouter();
 

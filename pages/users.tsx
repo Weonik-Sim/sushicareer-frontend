@@ -3,13 +3,15 @@ import TokenArtifact from "../contracts/AIB.json";
 import Web3 from "web3";
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/navigation";
+import { AbiItem } from 'web3-utils';
 
 export const getServerSideProps: GetServerSideProps = async () => {
 	const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
 	const contractAddress =
 		process.env.NEXT_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY || "";
 	const abi = TokenArtifact.abi; // コントラクトのABIをここに記述
-	const contract = new web3.eth.Contract(abi, contractAddress);
+	// eslint-disable-next-line
+	const contract = new web3.eth.Contract(abi as AbiItem[], contractAddress);
 
 	const result = await contract.methods._getAllThings().call();
 	const data = JSON.parse(JSON.stringify(result));
@@ -23,6 +25,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 	};
 };
 
+// eslint-disable-next-line
 export default function Page({ data }) {
 	const router = useRouter();
 	return (

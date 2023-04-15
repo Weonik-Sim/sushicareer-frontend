@@ -2,8 +2,7 @@ import Web3 from 'web3';
 import type { NextPage } from "next";
 import styles from "../styles/Home.module.css";
 import TokenArtifact from "../contracts/AIB.json";
-
-// import { ethers } from 'ethers';
+import { AbiItem } from 'web3-utils';
 
 import {
     useAddress,
@@ -18,7 +17,8 @@ const Company: NextPage = () => {
 
     const contractAddress = process.env.NEXT_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY || "";
     const abi = TokenArtifact.abi; // コントラクトのABIをここに記述
-    const contract = new web3.eth.Contract(abi, contractAddress);
+    // eslint-disable-next-line
+    const contract = new web3.eth.Contract(abi as AbiItem[], contractAddress);
     console.log("contract: ", contract);
 
     const userAddress = useAddress();
