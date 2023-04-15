@@ -5,7 +5,7 @@ import { AbiItem } from "web3-utils";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-const web3 = new Web3(Web3.givenProvider);
+const web3 = new Web3(Web3.givenProvider || "https://alpha-rpc.scroll.io/l2");
 
 const contractAddress = process.env.NEXT_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY || "";
 const abi = TokenArtifact.abi; // コントラクトのABIをここに記述
