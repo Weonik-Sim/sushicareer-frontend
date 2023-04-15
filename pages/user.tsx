@@ -5,7 +5,15 @@ import TokenArtifact from "../contracts/AIB.json";
 import { useState } from "react";
 import { resolve } from "path";
 import { useRouter } from "next/navigation";
-import { AbiItem } from 'web3-utils';
+import { AbiItem } from "web3-utils";
+
+type userInfo = {
+	companyName: string;
+	companyUrl: string;
+	employeeAddress: string;
+	employeeName: string;
+	employeeSlackId: string;
+};
 
 const User: NextPage = () => {
 	const [userName, setUserName] = useState("");
@@ -19,11 +27,11 @@ const User: NextPage = () => {
 
 	// result
 	const [createdResult, setCreatedResult] = useState("");
-	const [employeeInfo, setEmployeeInfo] = useState(""); // result of getEmployeeInfo
+	const [employeeInfo, setEmployeeInfo] = useState<userInfo | "">(""); // result of getEmployeeInfo
 	const [sendResult, setSendResult] = useState("");
-	const [allData, setAllData] = useState("");
-	const [userAddress, setUserAddress] = useState("");
-	const [userInfo, setUserInfo] = useState(""); // result of getEmployeeInfoAddress
+	const [allData, setAllData] = useState<userInfo[] | "">("");
+	const [userAddress, setUserAddress] = useState<userInfo | "">("");
+	const [userInfo, setUserInfo] = useState<userInfo | "">(""); // result of getEmployeeInfoAddress
 
 	const userNameChange = (e: any) => {
 		setUserName(e.target.value);
@@ -116,7 +124,7 @@ const User: NextPage = () => {
 		console.log("getEmployeeInfoAddress: ", result);
 
 		// display user address
-		setUserAddress(result);
+		setUserAddress(result[1]);
 	}
 
 	async function getEmployeeInfoBySlackId() {
@@ -127,7 +135,7 @@ const User: NextPage = () => {
 		console.log("getEmployeeInfoBySlackId: ", result);
 
 		// display user info
-		setUserInfo(result);
+		setUserInfo(result[1]);
 	}
 
 	return (
@@ -236,11 +244,11 @@ const User: NextPage = () => {
 				<div>
 					{userInfo && (
 						<div>
-							<p>CompanyName: {userInfo[1].companyName}</p>
-							<p>CompanyURL: {userInfo[1].companyUrl}</p>
-							<p>EmployeeAddress: {userInfo[1].employeeAddress}</p>
-							<p>EmployeeName: {userInfo[1].employeeName}</p>
-							<p>EmployeeSlackId: {userInfo[1].employeeSlackId}</p>
+							<p>CompanyName: {userInfo.companyName}</p>
+							<p>CompanyURL: {userInfo.companyUrl}</p>
+							<p>EmployeeAddress: {userInfo.employeeAddress}</p>
+							<p>EmployeeName: {userInfo.employeeName}</p>
+							<p>EmployeeSlackId: {userInfo.employeeSlackId}</p>
 						</div>
 					)}
 				</div>
@@ -253,11 +261,11 @@ const User: NextPage = () => {
 				<div>
 					{userAddress && (
 						<div>
-							<p>CompanyName: {userAddress[1].companyName}</p>
-							<p>CompanyURL: {userAddress[1].companyUrl}</p>
-							<p>EmployeeAddress: {userAddress[1].employeeAddress}</p>
-							<p>EmployeeName: {userAddress[1].employeeName}</p>
-							<p>EmployeeSlackId: {userAddress[1].employeeSlackId}</p>
+							<p>CompanyName: {userAddress.companyName}</p>
+							<p>CompanyURL: {userAddress.companyUrl}</p>
+							<p>EmployeeAddress: {userAddress.employeeAddress}</p>
+							<p>EmployeeName: {userAddress.employeeName}</p>
+							<p>EmployeeSlackId: {userAddress.employeeSlackId}</p>
 						</div>
 					)}
 				</div>
@@ -268,7 +276,7 @@ const User: NextPage = () => {
 				</div>
 				<div>
 					{allData &&
-						allData.map((data: any, i: number) => (
+						allData.map((data: userInfo, i: number) => (
 							<div
 								className={styles.link}
 								key={i}
