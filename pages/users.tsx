@@ -1,38 +1,36 @@
-import { GetServerSideProps } from "next";
 import TokenArtifact from "../contracts/AIB.json";
 import Web3 from "web3";
 import styles from "../styles/Home.module.css";
-import { useRouter } from "next/navigation";
 import { AbiItem } from "web3-utils";
-
-export const getServerSideProps: GetServerSideProps = async () => {
-	const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
-	const contractAddress =
-		process.env.NEXT_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY || "";
-	const abi = TokenArtifact.abi; // コントラクトのABIをここに記述
-	// eslint-disable-next-line
-	const contract = new web3.eth.Contract(abi as AbiItem[], contractAddress);
-
-	const result = await contract.methods._getAllThings().call();
-	const data = JSON.parse(JSON.stringify(result));
-
-	// console.log("getAllThings: ", result);
-
-	return {
-		props: {
-			data,
-		},
-	};
-};
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 // eslint-disable-next-line
-export default function Page({ data }: any) {
+export default function Page() {
+	const [users, setUsers] = useState<any | []>([]);
 	const router = useRouter();
+
+	useEffect(() => {
+		async function fetchData() {
+			const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+			const contractAddress =
+				process.env.NEXT_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY || "";
+			const abi = TokenArtifact.abi; // コントラクトのABIをここに記述
+			// eslint-disable-next-line
+			const contract = new web3.eth.Contract(abi as AbiItem[], contractAddress);
+			const result = await contract.methods._getAllThings().call();
+			const data = JSON.parse(JSON.stringify(result));
+			console.log("getAllThings: ", data);
+			setUsers(data);
+		}
+		fetchData();
+	}, []);
+
 	return (
 		<div className={styles.container}>
 			<main className={styles.main}>
 				<h1 className={styles.title}>employee Info</h1>
-				{data.map((user: any, i: number) => (
+				{users?.map((user: any, i: number) => (
 					<div
 						key={i}
 						className={styles.link}
