@@ -36,11 +36,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log("gasPrice: ", gasPrice);
     const gasLimit = 3000000;
     const tx = {
-    from: account.address,
-    to: contractAddress,
-    gasPrice: gasPrice,
-    gasLimit: gasLimit,
-    data: contract.methods._sendSushi(sender_id, receiver_id, osushi_count).encodeABI()
+        from: account.address,
+        to: contractAddress,
+        gasPrice: gasPrice,
+        gasLimit: gasLimit,
+        data: contract.methods._sendSushi(sender_id, receiver_id, osushi_count).encodeABI()
     };
     console.log("tx: ", tx);
     const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
