@@ -11,7 +11,7 @@ const contractAddress = process.env.NEXT_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY || "";
 const abi = TokenArtifact.abi; // コントラクトのABIをここに記述
 const contract = new web3.eth.Contract(abi as AbiItem[], contractAddress);
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     console.log("req: ", req.body);
     const sender_name = req.body.sender_name;
@@ -22,8 +22,11 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
     console.log("receiver_name: ", receiver_name);
     console.log("osushi_count: ", osushi_count);
 
-    const sender_id = getEmployeeInfoBySlackId(sender_name);
-    const receiver_id = getEmployeeInfoBySlackId(receiver_name);
+    const sender_id = await getEmployeeInfoBySlackId(sender_name);
+    const receiver_id = await getEmployeeInfoBySlackId(receiver_name);
+
+    console.log("sender_id: ", sender_id);
+    // console.log("sender_id: ", sender_id);
 
     sendSushi(sender_id, receiver_id, osushi_count);
 
@@ -38,11 +41,13 @@ async function getEmployeeInfoBySlackId(slackId: string): Promise<number> {
     console.log("getEmployeeInfoBySlackId: ", result);
 
     // display user info
-    return result[1];
+    return result[0];
 }
 
-async function sendSushi(fromId: Promise<number>, toId: Promise<number>, sushi: Promise<number>) {
+async function sendSushi(fromId: number, toId: number, sushi: number) {
+    console.log("sendSushi Execute");
     const accounts = await web3.eth.getAccounts();
+    console.log("accounts: ", accounts);
     const result = await contract.methods
         ._sendSushi(fromId, toId, sushi)
         .send({ from: accounts[0] });
