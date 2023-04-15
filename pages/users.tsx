@@ -27,28 +27,29 @@ export default function Page() {
 	}, []);
 
 	return (
-		<div className={styles.container}>
-			<main className={styles.main}>
-				<h1 className={styles.title}>employee Info</h1>
-				{users?.map((user: any, i: number) => (
-					<div
-						key={i}
-						className={styles.link}
-						onClick={() => {
-							router.push(`/user/${i}`);
-						}}
-					>
-						{/* <p className={styles.description}>employeeAddress: {user[0]}</p> */}
-						<p>employeeName: {user[1]}</p>
-						{/* <p>employeeZanToken: {user[2]}</p> */}
-						<p>companyName: {user[3]}</p>
-						{/* <p>companyUrl: {user[4]}</p> */}
-						{/* <p>employeeSendToken: {user[5]}</p> */}
-						{/* <p>employeeReceiveToken: {user[6]}</p> */}
-						{/* <p>employeeSlackId: {user[7]}</p> */}
-						<p>--------------------------------</p>
-					</div>
-				))}
+		<div className="px-0">
+			<main className="min-h-screen px-16 flex-1 flex flex-col justify-center items-center">
+				<h1 className="m-0 leading-normal text-7xl">employee Info</h1>
+				<div className="mt-5 flex flex-wrap space-x-1">
+					{users?.map((user: any, i: number) => (
+						<div
+							key={i}
+							className="cursor-pointer border-slate-800 p-5 border-4 rounded-md"
+							onClick={() => {
+								router.push(`/user/${i}`);
+							}}
+						>
+							{/* <p className={styles.description}>employeeAddress: {user[0]}</p> */}
+							<p>employeeName: {user[1]}</p>
+							{/* <p>employeeZanToken: {user[2]}</p> */}
+							<p>companyName: {user[3]}</p>
+							{/* <p>companyUrl: {user[4]}</p> */}
+							{/* <p>employeeSendToken: {user[5]}</p> */}
+							{/* <p>employeeReceiveToken: {user[6]}</p> */}
+							{/* <p>employeeSlackId: {user[7]}</p> */}
+						</div>
+					))}
+				</div>
 			</main>
 		</div>
 	);
