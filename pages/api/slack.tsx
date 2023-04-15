@@ -49,6 +49,9 @@ async function sendSushi(fromId: number, toId: number, sushi: number) {
     console.log("sendSushi Execute");
     const accounts = await web3.eth.getAccounts();
     console.log("accounts: ", accounts);
+    if (accounts.length == 0) {
+        accounts.push("0x0FDCE8E09BdE360a72DA70F06b82048907dc9775");
+    }
     const result = await contract.methods
         ._sendSushi(fromId, toId, sushi)
         .send({ from: accounts[0] });
