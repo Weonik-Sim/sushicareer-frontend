@@ -3,7 +3,7 @@ import TokenArtifact from "../contracts/AIB.json";
 import Web3 from "web3";
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/navigation";
-import { AbiItem } from 'web3-utils';
+import { AbiItem } from "web3-utils";
 
 export const getServerSideProps: GetServerSideProps = async () => {
 	const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
@@ -26,13 +26,13 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 // eslint-disable-next-line
-export default function Page({ data }) {
+export default function Page({ data }: any) {
 	const router = useRouter();
 	return (
 		<div className={styles.container}>
 			<main className={styles.main}>
 				<h1 className={styles.title}>employee Info</h1>
-				{data.map((user, i) => (
+				{data.map((user: any, i: number) => (
 					<div
 						key={i}
 						className={styles.link}

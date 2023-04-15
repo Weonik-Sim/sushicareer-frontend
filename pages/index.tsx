@@ -1,7 +1,6 @@
 import { ConnectWallet } from "@thirdweb-dev/react";
 import type { NextPage } from "next";
 import styles from "../styles/Home.module.css";
-import * as LitJsSdk from "@lit-protocol/lit-node-client";
 import Link from "next/link";
 
 const Home: NextPage = () => {

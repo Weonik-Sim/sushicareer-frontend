@@ -2,13 +2,14 @@ import { GetServerSideProps } from "next";
 import TokenArtifact from "../../contracts/AIB.json";
 import Web3 from "web3";
 import styles from "../../styles/Home.module.css";
+import { AbiItem } from "web3-utils";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
 	const contractAddress =
 		process.env.NEXT_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY || "";
 	const abi = TokenArtifact.abi; // コントラクトのABIをここに記述
-	const contract = new web3.eth.Contract(abi, contractAddress);
+	const contract = new web3.eth.Contract(abi as AbiItem[], contractAddress);
 
 	const result = await contract.methods._getEmployeeInfo(ctx.query.id).call();
 	console.log("getEmployeeInfo: ", result);
@@ -20,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	};
 };
 
-export default function Page({ result }) {
+export default function Page({ result }: any) {
 	console.log(result);
 	return (
 		<div className={styles.container}>
