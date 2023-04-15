@@ -29,11 +29,11 @@ export default function Page() {
 	if (!isReady) return null;
 
 	return (
-		<div className={styles.container}>
-			<main className={styles.main}>
-				<h1 className={styles.title}>employee Info</h1>
-				<div>
-					<p className={styles.description}>employeeAddress: {data[0]}</p>
+		<div className="px-0">
+			<main className="min-h-screen px-16 flex-1 flex flex-col justify-center items-center">
+				<h1 className="m-0 leading-normal text-7xl">employee Info</h1>
+				<div className="border-slate-800 p-5 border-4 rounded-md space-y-3">
+					<p>employeeAddress: {data[0]}</p>
 					<p>employeeName: {data[1]}</p>
 					<p>employeeZanToken: {data[2]}</p>
 					<p>companyName: {data[3]}</p>
