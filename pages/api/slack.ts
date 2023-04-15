@@ -10,6 +10,7 @@ const web3 = new Web3(Web3.givenProvider || "https://alpha-rpc.scroll.io/l2");
 const contractAddress = process.env.NEXT_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY || "";
 const abi = TokenArtifact.abi; // コントラクトのABIをここに記述
 const contract = new web3.eth.Contract(abi as AbiItem[], contractAddress);
+const privateKey = '81d7a846c0556340fc0849fcb2e7e8a1564b8fcb177d668212722c3d83538ffe';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
@@ -29,7 +30,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log("sender_id: ", sender_id);
     // console.log("sender_id: ", sender_id);
 
-    await sendSushi(sender_id, receiver_id, osushi_count);
+    const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+    const gasPrice = await web3.eth.getGasPrice();
+    const gasLimit = 3000000;
+    const tx = {
+    from: account.address,
+    to: contractAddress,
+    gasPrice: gasPrice,
+    gasLimit: gasLimit,
+    data: contract.methods.sendSushi(sender_id, receiver_id, osushi_count).encodeABI()
+    };
+    const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
+    if (signedTx.rawTransaction) {
+        const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+        console.log("receipt: ", receipt);
+    }
+    // await sendSushi(sender_id, receiver_id, osushi_count);
 
     res.status(200).json({ result: 'OK' })
 } 
