@@ -38,7 +38,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     to: contractAddress,
     gasPrice: gasPrice,
     gasLimit: gasLimit,
-    data: contract.methods.sendSushi(sender_id, receiver_id, osushi_count).encodeABI()
+    data: contract.methods._sendSushi(sender_id, receiver_id, osushi_count).encodeABI()
     };
     const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
     if (signedTx.rawTransaction) {
